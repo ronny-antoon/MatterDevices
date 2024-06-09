@@ -1,12 +1,13 @@
 #ifndef BUTTON_DEVICE_HPP
 #define BUTTON_DEVICE_HPP
 
-#include <BaseDevice.hpp>
-#include <hal/gpio_types.h>
-#include <switchButtonAccessory.hpp>
 #include <esp_err.h>
-#include <cstdint>
 #include <esp_matter.h>
+#include <hal/gpio_types.h>
+
+#include <BaseDevice.hpp>
+#include <cstdint>
+#include <switchButtonAccessory.hpp>
 
 /**
  * @class ButtonDevice
@@ -15,65 +16,65 @@
  * The ButtonDevice class encapsulates the behavior of a button accessory, providing
  * methods to interact with the hardware (button) and the ESP Matter framework.
  */
-class ButtonDevice : public BaseDevice
-{
-public:
-    /**
-     * @brief Constructor for ButtonDevice.
-     *
-     * This constructor initializes the ButtonDevice with specified parameters.
-     *
-     * @param device_name The name of the device.
-     * @param button_pin The GPIO pin connected to the button. Default is GPIO_NUM_NC.
-     * @param aggregator The endpoint aggregator. Default is nullptr.
-     *
-     * @details The constructor creates a SwitchButtonAccessory instance with the specified button pin.
-     * It also sets up the callback for reporting attributes.
-     * If an aggregator is provided, it creates a bridged node endpoint with the specified name.
-     * If no name is provided, it creates a bridged node endpoint with a default name.
-     * If no aggregator is provided, it creates a standalone ButtonDevice.
-     */
-    ButtonDevice(char *device_name = nullptr, gpio_num_t button_pin = GPIO_NUM_NC, esp_matter::endpoint_t *aggregator = nullptr);
+class ButtonDevice : public BaseDevice {
+ public:
+  /**
+   * @brief Constructor for ButtonDevice.
+   *
+   * This constructor initializes the ButtonDevice with specified parameters.
+   *
+   * @param device_name The name of the device.
+   * @param button_pin The GPIO pin connected to the button. Default is GPIO_NUM_NC.
+   * @param aggregator The endpoint aggregator. Default is nullptr.
+   *
+   * @details The constructor creates a SwitchButtonAccessory instance with the specified button pin.
+   * It also sets up the callback for reporting attributes.
+   * If an aggregator is provided, it creates a bridged node endpoint with the specified name.
+   * If no name is provided, it creates a bridged node endpoint with a default name.
+   * If no aggregator is provided, it creates a standalone ButtonDevice.
+   */
+  ButtonDevice(char *device_name = nullptr, gpio_num_t button_pin = GPIO_NUM_NC,
+               esp_matter::endpoint_t *aggregator = nullptr);
 
-    /**
-     * @brief Default destructor for ButtonDevice.
-     */
-    ~ButtonDevice() = default;
+  /**
+   * @brief Default destructor for ButtonDevice.
+   */
+  ~ButtonDevice() = default;
 
-    /**
-     * @brief Update the accessory state.
-     *
-     * This method updates the state of the button accessory based on the endpoint's state.
-     *
-     * @return esp_err_t Error code indicating success or failure.
-     */
-    esp_err_t updateAccessory() override;
+  /**
+   * @brief Update the accessory state.
+   *
+   * This method updates the state of the button accessory based on the endpoint's state.
+   *
+   * @return esp_err_t Error code indicating success or failure.
+   */
+  esp_err_t updateAccessory() override;
 
-    /**
-     * @brief Report the endpoint state.
-     *
-     * This method reports the current state of the endpoint to the Matter framework.
-     *
-     * @return esp_err_t Error code indicating success or failure.
-     */
-    esp_err_t reportEndpoint() override;
+  /**
+   * @brief Report the endpoint state.
+   *
+   * This method reports the current state of the endpoint to the Matter framework.
+   *
+   * @return esp_err_t Error code indicating success or failure.
+   */
+  esp_err_t reportEndpoint() override;
 
-    /**
-     * @brief Identify the accessory.
-     *
-     * @return esp_err_t Error code indicating success or failure.
-     */
-    esp_err_t identify() override;
+  /**
+   * @brief Identify the accessory.
+   *
+   * @return esp_err_t Error code indicating success or failure.
+   */
+  esp_err_t identify() override;
 
-private:
-    // bool getAccessoryPowerState();
-    // void setAccessoryPowerState(bool powerState);
-    // bool getEndpointPowerState();
-    void setEndpointSwitchPressEvent(SwitchButtonAccessory::PressType pressType);
+ private:
+  // bool getAccessoryPowerState();
+  // void setAccessoryPowerState(bool powerState);
+  // bool getEndpointPowerState();
+  void setEndpointSwitchPressEvent(SwitchButtonAccessory::PressType pressType);
 
-    esp_matter::endpoint_t *endpoint;             /**< Pointer to the esp_matter endpoint. */
-    SwitchButtonAccessory *switchButtonAccessory; /**< Pointer to the SwitchButtonAccessory instance. */
-    char name[64];                                /**< Name of the device, TODO: change to a define. */
+  esp_matter::endpoint_t *endpoint;             /**< Pointer to the esp_matter endpoint. */
+  SwitchButtonAccessory *switchButtonAccessory; /**< Pointer to the SwitchButtonAccessory instance. */
+  char name[64];                                /**< Name of the device, TODO: change to a define. */
 };
 
-#endif // BUTTON_DEVICE_HPP
+#endif  // BUTTON_DEVICE_HPP
