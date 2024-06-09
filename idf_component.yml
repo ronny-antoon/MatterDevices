@@ -1,0 +1,14 @@
+version: "0.0.1"
+license: "MIT"
+description: "aaaaaaaaa bbbbbbb"
+url: "https://github.com/ronny-antoon/MetaHouseDevice"  # The homepage of the component. It can be a GitHub repository page.
+dependencies:
+  idf:
+    version: ">=4.1.0"
+  ronny-antoon/accessories:
+    version: "*"
+    require: "private"
+  espressif/esp_matter:
+    version: "0.0.2"
+  espressif/button:
+    version: "3.2.0"
