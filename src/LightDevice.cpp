@@ -7,24 +7,12 @@
 
 #include <cstdint>
 
-LightDevice::LightDevice(char *device_name, gpio_num_t light_pin, gpio_num_t button_pin,
+LightDevice::LightDevice(char *device_name, LightAccessoryInterface *lightAccessory,
                          esp_matter::endpoint_t *aggregator)
-    : BaseDevice() {
-  if (light_pin == GPIO_NUM_NC) {
-    ESP_LOGW(__FILENAME__, "light_pin is not set");
-  } else {
-    if (button_pin == GPIO_NUM_NC) {
-      ESP_LOGW(__FILENAME__, "button_pin is not set");
-    }
-
-    ESP_LOGI(__FILENAME__, "Creating LightAccessory with light_pin: %d, button_pin: %d", light_pin,
-             button_pin);
-
-    // Create the LightAccessory instance
-    lightAccessory = new LightAccessory(button_pin, light_pin);
-
-    // Set up the callback for reporting attributes
-    lightAccessory->setReportAttributesCallback(
+    : BaseDevice(), lightAccessory(lightAccessory) {
+  // Set up the callback for reporting attributes
+  if (lightAccessory != nullptr) {
+    lightAccessory->setReportAppCallback(
         [](void *self) { static_cast<LightDevice *>(self)->reportEndpoint(); }, this);
   }
 

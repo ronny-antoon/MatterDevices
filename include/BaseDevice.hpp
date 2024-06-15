@@ -3,8 +3,6 @@
 
 #include <esp_err.h>
 
-#include <cstdint>
-
 /**
  * @class BaseDevice
  * @brief Abstract base class for all device types.

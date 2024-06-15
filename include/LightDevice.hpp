@@ -3,11 +3,10 @@
 
 #include <esp_err.h>
 #include <esp_matter.h>
-#include <hal/gpio_types.h>
 
 #include <BaseDevice.hpp>
+#include <LightAccessoryInterface.hpp>
 #include <cstdint>
-#include <lightAccessory.hpp>
 
 /**
  * @class LightDevice
@@ -34,8 +33,8 @@ class LightDevice : public BaseDevice {
    * If no name is provided, it creates a bridged node endpoint with a default name.
    * If no aggregator is provided, it creates a standalone LightDevice.
    */
-  LightDevice(char *device_name = nullptr, gpio_num_t light_pin = GPIO_NUM_NC,
-              gpio_num_t button_pin = GPIO_NUM_NC, esp_matter::endpoint_t *aggregator = nullptr);
+  LightDevice(char *device_name = nullptr, LightAccessoryInterface *lightAccessory = nullptr,
+              esp_matter::endpoint_t *aggregator = nullptr);
 
   /**
    * @brief Default destructor for LightDevice.
@@ -107,9 +106,9 @@ class LightDevice : public BaseDevice {
    */
   void setEndpointPowerState(bool powerState);
 
-  esp_matter::endpoint_t *endpoint; /**< Pointer to the esp_matter endpoint. */
-  LightAccessory *lightAccessory;   /**< Pointer to the LightAccessory instance. */
-  char name[64];                    /**< Name of the device, TODO: change to a define. */
+  esp_matter::endpoint_t *endpoint;        /**< Pointer to the esp_matter endpoint. */
+  LightAccessoryInterface *lightAccessory; /**< Pointer to the LightAccessory instance. */
+  char name[64];                           /**< Name of the device, TODO: change to a define. */
 };
 
 #endif  // LIGHT_DEVICE_HPP
