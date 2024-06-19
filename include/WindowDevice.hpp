@@ -6,7 +6,7 @@
 #include <hal/gpio_types.h>
 
 #include <BaseDevice.hpp>
-#include <BlindAccessory.hpp>
+#include <BlindAccessoryInterface.hpp>
 #include <cstdint>
 
 /**
@@ -38,10 +38,8 @@ class WindowDevice : public BaseDevice {
    * If no name is provided, it creates a bridged node endpoint with a default name.
    * If no aggregator is provided, it creates a standalone WindowDevice.
    */
-  WindowDevice(const char *device_name = nullptr, gpio_num_t motor_open_pin = GPIO_NUM_NC,
-               gpio_num_t motor_close_pin = GPIO_NUM_NC, gpio_num_t button_open_pin = GPIO_NUM_NC,
-               gpio_num_t button_close_pin = GPIO_NUM_NC, uint16_t time_to_open = 30,
-               uint16_t time_to_close = 30, esp_matter::endpoint_t *aggregator = nullptr);
+  WindowDevice(const char *device_name = nullptr, BlindAccessoryInterface *blindAccessory = nullptr,
+               esp_matter::endpoint_t *aggregator = nullptr);
 
   /**
    * @brief Default destructor for WindowDevice.
@@ -84,7 +82,7 @@ class WindowDevice : public BaseDevice {
   void setEndpointCurrentPosition(uint16_t position);
 
   esp_matter::endpoint_t *endpoint; /**< Pointer to the esp_matter endpoint. */
-  WindowAccessory *BlindAccessory;  /**< Window accessory instance. */
+  BlindAccessoryInterface *BlindAccessory;  /**< Window accessory instance. */
   uint16_t time_to_open;            /**< Time it takes to open the window in seconds. */
   uint16_t time_to_close;           /**< Time it takes to close the window in seconds. */
   char name[64];                    /**< Name of the device. TODO: Change to a define. */

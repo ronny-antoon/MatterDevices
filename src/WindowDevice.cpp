@@ -7,35 +7,14 @@
 
 #include <cstdint>
 
-WindowDevice::WindowDevice(const char *device_name, gpio_num_t motor_open_pin, gpio_num_t motor_close_pin,
-                           gpio_num_t button_open_pin, gpio_num_t button_close_pin, uint16_t time_to_open,
-                           uint16_t time_to_close, esp_matter::endpoint_t *aggregator)
+WindowDevice::WindowDevice(const char *device_name, BlindAccessoryInterface *blindAccessory,
+                           esp_matter::endpoint_t *aggregator)
     : BaseDevice() {
-  if (motor_open_pin == GPIO_NUM_NC || motor_close_pin == GPIO_NUM_NC) {
-    ESP_LOGW(__FILENAME__, "motor_open_pin or motor_close_pin is not set");
-  } else {
-    if (button_open_pin == GPIO_NUM_NC) {
-      ESP_LOGW(__FILENAME__, "button_open_pin is not set");
-    }
+  BlindAccessory = blindAccessory;
 
-    if (button_close_pin == GPIO_NUM_NC) {
-      ESP_LOGW(__FILENAME__, "button_close_pin is not set");
-    }
-
-    ESP_LOGI(__FILENAME__,
-             "Creating WindowAccessory with motor_open_pin: %d, "
-             "motor_close_pin: %d, button_open_pin: %d, "
-             "button_close_pin: %d",
-             motor_open_pin, motor_close_pin, button_open_pin, button_close_pin);
-
-    // Create the WindowAccessory instance
-    BlindAccessory = new BlindAccessory(button_open_pin, button_close_pin, motor_open_pin, motor_close_pin,
-                                        time_to_open, time_to_close);
-
-    // Set up the callback for reporting attributes
-    BlindAccessory->setReportAttributesCallback(
-        [](void *self) { static_cast<WindowDevice *>(self)->reportEndpoint(); }, this);
-  }
+  // Set up the callback for reporting attributes
+  BlindAccessory->setReportAppCallback(
+      [](void *self) { static_cast<WindowDevice *>(self)->reportEndpoint(); }, this);
 
   // Check if an aggregator is provided
   if (aggregator != nullptr) {

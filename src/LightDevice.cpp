@@ -43,6 +43,8 @@ LightDevice::LightDevice(const char *device_name, LightAccessoryInterface *light
     endpoint = esp_matter::endpoint::create(esp_matter::node::get(), flags, this);
   }
 
+  
+
   esp_matter::endpoint::on_off_light::config_t light_config;
   esp_matter::endpoint::on_off_light::add(endpoint, &light_config);
 
