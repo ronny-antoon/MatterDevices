@@ -33,7 +33,7 @@ class LightDevice : public BaseDevice {
    * If no name is provided, it creates a bridged node endpoint with a default name.
    * If no aggregator is provided, it creates a standalone LightDevice.
    */
-  LightDevice(char *device_name = nullptr, LightAccessoryInterface *lightAccessory = nullptr,
+  LightDevice(const char *device_name = nullptr, LightAccessoryInterface *lightAccessory = nullptr,
               esp_matter::endpoint_t *aggregator = nullptr);
 
   /**

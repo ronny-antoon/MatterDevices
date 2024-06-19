@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-LightDevice::LightDevice(char *device_name, LightAccessoryInterface *lightAccessory,
+LightDevice::LightDevice(const char *device_name, LightAccessoryInterface *lightAccessory,
                          esp_matter::endpoint_t *aggregator)
     : BaseDevice(), lightAccessory(lightAccessory) {
   // Set up the callback for reporting attributes
